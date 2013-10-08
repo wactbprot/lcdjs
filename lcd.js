@@ -4,6 +4,7 @@
  * @autor wactbprot <thsteinbock@web.de>
  */
 
+
 var gpio = require('gpio'),
 // Define GPIO to LCD mapping
 // here we use raspberry pi numering
