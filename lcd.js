@@ -10,8 +10,8 @@ var LCD_WIDTH = 20,   // Maximum characters per line
 LCD_CHR = true,
 LCD_CMD = false,
 // Timing constants
-E_PULSE = 80, // ms
-E_DELAY = 80; // ms
+E_PULSE = 50, // ms
+E_DELAY = 50; // ms
 
 var lcd_line = new Buffer(4);
 lcd_line[0] = 0x80; // LCD RAM address for the 1st line
@@ -88,14 +88,17 @@ var lcd_init = function(cbfn){
                                                     function(){
                                                         lcd_byte(init[4],LCD_CMD,
                                                                  function(){
-                                                                     lcd_byte(init[5],LCD_CMD, cbfn)}
-                                                                )}
-                                                   )}
-                                      )}
-                         )}
-            );
-
-
+                                                                     lcd_byte(init[5],LCD_CMD, cbfn)
+                                                                 }
+                                                                )
+                                                    }
+                                                   )
+                                       }
+                                      )
+                          }
+                         )
+             }
+            )
 };
 //
 var lcd_byte = function(bits, mode, cbfn){
@@ -105,7 +108,6 @@ var lcd_byte = function(bits, mode, cbfn){
     //          False for command
     // time.sleep(E_DELAY)
     //
-
 
     var fn1 = function(){
         console.log("1");
@@ -157,8 +159,6 @@ var lcd_byte = function(bits, mode, cbfn){
         console.log("47");
         lcd_e.set(0);
     }
-
-
 
     to1 =    setTimeout(function(){
         fn1();
