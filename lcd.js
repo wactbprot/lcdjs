@@ -113,7 +113,7 @@ var gpio = require('gpio');
        if(mode){
            lcd_rs.set();
        }else{
-           lcd_rs.reset();
+           lcd_rs.set(0);
        }
    };
    
@@ -167,7 +167,7 @@ var gpio = require('gpio');
    //time.sleep(E_PULSE)
    var fn47 = function(){
        console.log("47");
-       lcd_e.reset();
+       lcd_e.set(0);
    }
 
 
