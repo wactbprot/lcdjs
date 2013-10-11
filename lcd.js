@@ -109,6 +109,8 @@ var lcd_init = function(cbfn){
     )
 };
 
+var lcd_byte = function(bits, mode, cbfn){
+
 var fn1 = function(){
     console.log("1");
     if(mode){
@@ -159,8 +161,6 @@ var fn47 = function(){
     lcd_e.set(0);
 }
 
-
-var lcd_byte = function(bits, mode, cbfn){
 
     setTimeout(function(){
         fn1();
