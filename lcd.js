@@ -6,9 +6,10 @@
 
 
 // Define some device constants
-var LCD_WIDTH = 20,   // Maximum characters per line
-LCD_CHR = true,
-LCD_CMD = false,
+
+var lcd_width = 20,   // Maximum characters per line
+lcd_chr = true,
+    lcd_cmd = false,
 // Timing constants
 E_PULSE = 50, // ms
 E_DELAY = 50; // ms
@@ -75,20 +76,18 @@ var lcd_d18 = gpio.export(18,
                            }});
 
 
-
-//
 var lcd_init = function(cbfn){
-    lcd_byte(init[0],LCD_CMD,
+    lcd_byte(init[0],lcd_cmd,
              function(){
-                 lcd_byte(init[1],LCD_CMD,
+                 lcd_byte(init[1],lcd_cmd,
                           function(){
-                              lcd_byte(init[2],LCD_CMD,
+                              lcd_byte(init[2],lcd_cmd,
                                        function(){
-                                           lcd_byte(init[3],LCD_CMD,
+                                           lcd_byte(init[3],lcd_cmd,
                                                     function(){
-                                                        lcd_byte(init[4],LCD_CMD,
+                                                        lcd_byte(init[4],lcd_cmd,
                                                                  function(){
-                                                                     lcd_byte(init[5],LCD_CMD, cbfn)
+                                                                     lcd_byte(init[5],lcd_cmd, cbfn)
                                                                  }
                                                                 )
                                                     }
@@ -100,18 +99,12 @@ var lcd_init = function(cbfn){
              }
             )
 };
-//
+
+
 var lcd_byte = function(bits, mode, cbfn){
-    //   Send byte to data pins
-    //   bits = data
-    //   mode = True  for character
-    //          False for command
-    // time.sleep(E_DELAY)
-    //
 
     var fn1 = function(){
         console.log("1");
-        // RS
         if(mode){
             lcd_rs.set();
         }else{
@@ -149,52 +142,52 @@ var lcd_byte = function(bits, mode, cbfn){
         }
     }
 
-    //time.sleep(E_DELAY)
+
     var fn36 = function(){
         console.log("36");
         lcd_e.set();
     }
-    //time.sleep(E_PULSE)
+
     var fn47 = function(){
         console.log("47");
         lcd_e.set(0);
     }
 
-    to1 =    setTimeout(function(){
-        fn1();
+   setTimeout(function(){
+                 fn1();
 
-        to2 =  setTimeout(function(){
-            fn25();
+                setTimeout(function(){
+                            fn25();
 
-            to3 = setTimeout(function(){
-                fn36();
+                           setTimeout(function(){
+                                      fn36();
 
-                to4 =  setTimeout(function(){
-                    fn47();
+                                   setTimeout(function(){
+                                                 fn47();
 
-                    to5 = setTimeout(function(){
-                        fn25();
+                                               setTimeout(function(){
+                                                           fn25();
 
-                        to6 =  setTimeout(function(){
-                            fn36();
+                                                          setTimeout(function(){
+                                                                      fn36();
 
-                            to7 =   setTimeout(function(){
-                                fn47();
+                                                                      to7 =   setTimeout(function(){
+                                                                                  fn47();
 
-                                if(typeof cbfn == 'function'){
-                                    console.log("got a cb");
-                                    cbfn();
-                                }else{
-                                    console.log("ok");
-                                    return true;
-                                };
-                            },E_DELAY);
+                                                                                  if(typeof cbfn == 'function'){
+                                                                                      console.log("got a cb");
+                                                                                      cbfn();
+                                                                                  }else{
+                                                                                      console.log("ok");
+                                                                                  }
+                                                                              },E_DELAY);
+                                                                  },E_DELAY);
+                                                       },E_DELAY);
+                                             },E_DELAY);
+                                  },E_DELAY);
                         },E_DELAY);
-                    },E_DELAY);
-                },E_DELAY);
-            },E_DELAY);
-        },E_DELAY);
-    }, E_DELAY);
+             }, E_DELAY);
+
 };//lcd_byte
 
 
