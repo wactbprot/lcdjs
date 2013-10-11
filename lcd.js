@@ -112,10 +112,12 @@ var lcd_init = function(cbfn){
 var lcd_byte = function(bits, mode, cbfn){
 
 var fn1 = function(){
-    console.log("1");
+
     if(mode){
+        console.log("receive a char");
         lcd_rs.set();
     }else{
+        console.log("receive a cmd");
         lcd_rs.set(0);
     }
 };
@@ -201,3 +203,9 @@ var fn47 = function(){
 
 
 setTimeout(lcd_init, 500);
+
+setTimeout(function(){
+    var    tmb = new Buffer(1);
+    tmb[0] = "A";
+    lcd_byte(tmb[0], lcd.chr);
+},10000)
