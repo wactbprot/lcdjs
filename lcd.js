@@ -140,7 +140,6 @@ var lcd_byte = function(bits, mode, cbfn){
         rpio.write(lcd_d7, rpio.LOW);
         if((bits & lcd.filter[0]) == lcd.filter[0]){
             rpio.write(lcd_d4, rpio.HIGH);
-
         }
         if((bits & lcd.filter[1]) == lcd.filter[1]){
             rpio.write(lcd_d5, rpio.HIGH);
@@ -189,7 +188,7 @@ var lcd_byte = function(bits, mode, cbfn){
         fn1();
 
         setTimeout(function(){
-            fn25();
+            fn2();
 
             setTimeout(function(){
                 fn36();
@@ -198,7 +197,7 @@ var lcd_byte = function(bits, mode, cbfn){
                     fn47();
 
                     setTimeout(function(){
-                        fn25();
+                        fn5();
 
                         setTimeout(function(){
                             fn36();
