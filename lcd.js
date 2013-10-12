@@ -32,8 +32,8 @@ lcd.line =[
 lcd.filter = [
     16,
     32,
-    48,
     64,
+    128,
     1,
     2,
     4,
@@ -73,9 +73,6 @@ var lcd_e  = 24,
     lcd_d5 = 18,
     lcd_d6 = 16,
     lcd_d7 = 12;
-
-
-
 
 var lcd_setup = function(cbfn){
     rpio.setOutput(lcd_e );
@@ -140,6 +137,7 @@ var lcd_byte = function(bits, mode, cbfn){
         rpio.write(lcd_d5, rpio.LOW);
         rpio.write(lcd_d6, rpio.LOW);
         rpio.write(lcd_d7, rpio.LOW);
+
         if((bits & lcd.filter[0]) == lcd.filter[0]){
             rpio.write(lcd_d4, rpio.HIGH);
         }
@@ -160,9 +158,9 @@ var lcd_byte = function(bits, mode, cbfn){
         rpio.write(lcd_d5, rpio.LOW);
         rpio.write(lcd_d6, rpio.LOW);
         rpio.write(lcd_d7, rpio.LOW);
+
         if((bits & lcd.filter[4]) == lcd.filter[4]){
             rpio.write(lcd_d4, rpio.HIGH);
-
         }
         if((bits & lcd.filter[5]) == lcd.filter[5]){
             rpio.write(lcd_d5, rpio.HIGH);
@@ -206,13 +204,11 @@ var lcd_byte = function(bits, mode, cbfn){
 
                             setTimeout(function(){
                                 fn47();
-
-                                if(typeof cbfn == 'function'){
-                                    console.log("got a cb");
-                                    cbfn();
-                                }else{
-                                    console.log("ok");
-                                }
+                                setTimeout(function(){
+                                    if(typeof cbfn == 'function'){
+                                        cbfn();
+                                    }
+                                });
                             },lcd.delay);
                         },lcd.delay);
                     },lcd.delay);
@@ -223,11 +219,10 @@ var lcd_byte = function(bits, mode, cbfn){
 
 };//lcd_byte
 
-lcd_setup(function(){
-    setTimeout(lcd_init, 500);
-});
+lcd_setup();
 
+
+setTimeout(lcd_init, 1000)
 setTimeout(function(){
-
     lcd_byte("l".charCodeAt(0), lcd.chr);
-},10000)
+},2000);
