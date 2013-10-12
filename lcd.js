@@ -33,7 +33,11 @@ lcd.filter = [
     16,
     32,
     48,
-    64
+    64,
+    1,
+    2,
+    4,
+    8
 ];
 // lcd.filter = new Buffer(4);
 // lcd.filter[0] = 0x10;
@@ -141,7 +145,7 @@ var fn1 = function(){
     }
 };
 
-var fn25 = function(){
+var fn2 = function(){
     console.log("fn25");
     // High bits
     lcd_d4.set(0,
@@ -168,6 +172,42 @@ var fn25 = function(){
                                    console.log("set d6");
                                }
                                if((bits & lcd.filter[3]) == lcd.filter[3]){
+                                   lcd_d7.set();
+                                   console.log("set d7");
+                               }
+                           });
+                       });
+                   });
+               });
+};
+
+var fn5 = function(){
+    console.log("fn25");
+    // High bits
+    lcd_d4.set(0,
+               function(){
+                   console.log("reset d4");
+                   lcd_d5.set(0,function(){
+                       console.log("reset d5");
+                       lcd_d6.set(0, function(){
+                           console.log("reset d6");
+                           lcd_d7.set(0, function(){
+                               console.log("reset d7");
+
+                               if((bits & lcd.filter[4]) == lcd.filter[4]){
+                                   lcd_d4.set();
+                                   console.log("set d4");
+                               }
+                               if((bits & lcd.filter[5]) == lcd.filter[5]){
+                                   lcd_d5.set();
+                                   console.log("set d5");
+
+                               }
+                               if((bits & lcd.filter[6]) == lcd.filter[6]){
+                                   lcd_d6.set();
+                                   console.log("set d6");
+                               }
+                               if((bits & lcd.filter[7]) == lcd.filter[7]){
                                    lcd_d7.set();
                                    console.log("set d7");
                                }
