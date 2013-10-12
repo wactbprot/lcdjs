@@ -142,43 +142,43 @@ var fn1 = function(){
 };
 
 var fn25 = function(){
-    console.log("25");
+    console.log("fn25");
     // High bits
     lcd_d4.set(0);
-    console.log("reset d23");
+    console.log("reset d4");
     lcd_d5.set(0);
-    console.log("reset d24");
+    console.log("reset d5");
     lcd_d6.set(0);
-    console.log("reset d25");
+    console.log("reset d6");
     lcd_d7.set(0);
-    console.log("reset d18");
+    console.log("reset d7");
     if((bits & lcd.filter[0]) == lcd.filter[0]){
         lcd_d4.set();
-        console.log("set d23");
+        console.log("set d4");
     }
     if((bits & lcd.filter[1]) == lcd.filter[1]){
         lcd_d5.set();
-        console.log("set d24");
+        console.log("set d5");
 
     }
     if((bits & lcd.filter[2]) == lcd.filter[2]){
         lcd_d6.set();
-        console.log("set d25");
+        console.log("set d6");
     }
     if((bits & lcd.filter[3]) == lcd.filter[3]){
         lcd_d7.set();
-        console.log("set d18");
+        console.log("set d7");
     }
 }
 
 
 var fn36 = function(){
-    console.log("36");
+    console.log("fn36");
     lcd_e.set();
 }
 
 var fn47 = function(){
-    console.log("47");
+    console.log("fn47");
     lcd_e.set(0);
 }
 
