@@ -1,4 +1,4 @@
-/**
+ /**
  * A js lcd try
  *
  * @autor wactbprot <thsteinbock@web.de>
