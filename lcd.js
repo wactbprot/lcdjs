@@ -148,82 +148,73 @@ var fn1 = function(){
 var fn2 = function(){
     console.log("fn25");
     // High bits
-    lcd_d4.set(0,
-               function(){
-                   console.log("reset d4");
-                   lcd_d5.set(0,function(){
-                       console.log("reset d5");
-                       lcd_d6.set(0, function(){
-                           console.log("reset d6");
-                           lcd_d7.set(0, function(){
-                               console.log("reset d7");
+    lcd_d4.set(0);
+    console.log("reset d4");
+    lcd_d5.set(0);
+    console.log("reset d5");
+    lcd_d6.set(0);
+    console.log("reset d6");
+    lcd_d7.set(0);
+    console.log("reset d7");
 
-                               if((bits & lcd.filter[0]) == lcd.filter[0]){
-                                   lcd_d4.set();
-                                   console.log("set d4");
-                               }
-                               if((bits & lcd.filter[1]) == lcd.filter[1]){
-                                   lcd_d5.set();
-                                   console.log("set d5");
+    if((bits & lcd.filter[0]) == lcd.filter[0]){
+        lcd_d4.set();
+        console.log("set d4");
+    }
+    if((bits & lcd.filter[1]) == lcd.filter[1]){
+        lcd_d5.set();
+        console.log("set d5");
 
-                               }
-                               if((bits & lcd.filter[2]) == lcd.filter[2]){
-                                   lcd_d6.set();
-                                   console.log("set d6");
-                               }
-                               if((bits & lcd.filter[3]) == lcd.filter[3]){
-                                   lcd_d7.set();
-                                   console.log("set d7");
-                               }
-                           });
-                       });
-                   });
-               });
+    }
+    if((bits & lcd.filter[2]) == lcd.filter[2]){
+        lcd_d6.set();
+        console.log("set d6");
+    }
+    if((bits & lcd.filter[3]) == lcd.filter[3]){
+        lcd_d7.set();
+        console.log("set d7");
+
+    }
 };
 
 var fn5 = function(){
     console.log("fn25");
     // High bits
-    lcd_d4.set(0,
-               function(){
-                   console.log("reset d4");
-                   lcd_d5.set(0,function(){
-                       console.log("reset d5");
-                       lcd_d6.set(0, function(){
-                           console.log("reset d6");
-                           lcd_d7.set(0, function(){
-                               console.log("reset d7");
+    lcd_d4.set(0)
+    console.log("reset d4");
+    lcd_d5.set(0);
+    console.log("reset d5");
+    lcd_d6.set(0);
+    console.log("reset d6");
+    lcd_d7.set(0);
+    console.log("reset d7");
 
-                               if((bits & lcd.filter[4]) == lcd.filter[4]){
-                                   lcd_d4.set();
-                                   console.log("set d4");
-                               }
-                               if((bits & lcd.filter[5]) == lcd.filter[5]){
-                                   lcd_d5.set();
-                                   console.log("set d5");
+    if((bits & lcd.filter[4]) == lcd.filter[4]){
+        lcd_d4.set();
+        console.log("set d4");
+    }
+    if((bits & lcd.filter[5]) == lcd.filter[5]){
+        lcd_d5.set();
+        console.log("set d5");
 
-                               }
-                               if((bits & lcd.filter[6]) == lcd.filter[6]){
-                                   lcd_d6.set();
-                                   console.log("set d6");
-                               }
-                               if((bits & lcd.filter[7]) == lcd.filter[7]){
-                                   lcd_d7.set();
-                                   console.log("set d7");
-                               }
-                           });
-                       });
-                   });
-               });
+    }
+    if((bits & lcd.filter[6]) == lcd.filter[6]){
+        lcd_d6.set();
+        console.log("set d6");
+    }
+    if((bits & lcd.filter[7]) == lcd.filter[7]){
+        lcd_d7.set();
+        console.log("set d7");
+    }
 };
 
 
-var fn36 = function(){
-    console.log("fn36");
-    lcd_e.set();
-}
+    var fn36 = function(){
+        console.log("fn36");
+        lcd_e.set();
+    }
 
-var fn47 = function(){
+    var fn47 = function(){
     console.log("fn47");
     lcd_e.set(0);
 }
@@ -233,7 +224,7 @@ var fn47 = function(){
         fn1();
 
         setTimeout(function(){
-            fn25();
+            fn2();
 
             setTimeout(function(){
                 fn36();
@@ -242,7 +233,7 @@ var fn47 = function(){
                     fn47();
 
                     setTimeout(function(){
-                        fn25();
+                        fn5();
 
                         setTimeout(function(){
                             fn36();
