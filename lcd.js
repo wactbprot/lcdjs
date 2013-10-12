@@ -15,7 +15,7 @@ var lcd = {
 lcd.chr = true;
 lcd.cmd = false;
 // Timing constants
-lcd.delay = 50; // ms
+lcd.delay = 5; // ms
 
 lcd.line =[
     128,
@@ -61,16 +61,18 @@ lcd.init = [
 // lcd.init[5] = 0x01;
 //
 var rpio = require('rpio');
-
-// Define GPIO to LCD mapping
-// here we use raspberry pi numering
-// not BCM
-var lcd_e  = 8,
-    lcd_rs = 7,
-    lcd_d4 = 25,
-    lcd_d5 = 24,
-    lcd_d6 = 23,
-    lcd_d7 = 18;
+// var lcd_e  = 8,
+//     lcd_rs = 7,
+//     lcd_d4 = 25,
+//     lcd_d5 = 24,
+//     lcd_d6 = 23,
+//     lcd_d7 = 18;
+var lcd_e  = 24,
+    lcd_rs = 26,
+    lcd_d4 = 22,
+    lcd_d5 = 18,
+    lcd_d6 = 16,
+    lcd_d7 = 12;
 
 
 
@@ -221,10 +223,11 @@ var lcd_byte = function(bits, mode, cbfn){
 
 };//lcd_byte
 
-
-setTimeout(lcd_init, 500);
+lcd_setup(function(){
+    setTimeout(lcd_init, 500);
+});
 
 setTimeout(function(){
 
-    lcd_byte("a".charCodeAt(0), lcd.chr);
+    lcd_byte("l".charCodeAt(0), lcd.chr);
 },10000)
