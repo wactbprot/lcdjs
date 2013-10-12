@@ -60,47 +60,33 @@ lcd.init = [
 // lcd.init[4] = 0x06;
 // lcd.init[5] = 0x01;
 //
-var gpio = require('gpio');
+var rpio = require('rpio');
+
 // Define GPIO to LCD mapping
 // here we use raspberry pi numering
 // not BCM
-var lcd_e  = gpio.export(8,
-                         {direction: 'out',
-                          ready: function() {
-                              console.log("go for 10");
-                          }});
-var lcd_rs = gpio.export(7,
-                         {direction: 'out',
-                          ready: function() {
-                              console.log("go for 7");
-                          }});
+var lcd_e  = 8,
+    lcd_rs = 7,
+    lcd_d4 = 25,
+    lcd_d5 = 24,
+    lcd_d6 = 23,
+    lcd_d7 = 18;
 
 
-var lcd_d4 = gpio.export(25,
-                          {direction: 'out',
-                           ready: function() {
-                               console.log("go for 23");
-                           }});
-
-var lcd_d5 = gpio.export(24,
-                          {direction: 'out',
-                           ready: function() {
-                               console.log("go for 24");
-                           }});
 
 
-var lcd_d6 = gpio.export(23,
-                          {direction: 'out',
-                           ready: function() {
-                               console.log("go for 25");
-                           }})
+var lcd_setup = function(cbfn){
+    rpio.setOutput(lcd_e );
+    rpio.setOutput(lcd_rs);
+    rpio.setOutput(lcd_d4);
+    rpio.setOutput(lcd_d5);
+    rpio.setOutput(lcd_d6);
+    rpio.setOutput(lcd_d7);
 
-var lcd_d7 = gpio.export(18,
-                          {direction: 'out',
-                           ready: function() {
-                               console.log("go for 18");
-                           }});
-
+    if(typeof cbfn == 'function'){
+        cbfn();
+    }
+};
 
 var lcd_init = function(cbfn){
     lcd_byte(
@@ -134,99 +120,69 @@ var lcd_init = function(cbfn){
 
 var lcd_byte = function(bits, mode, cbfn){
 
-var fn1 = function(){
+    var fn1 = function(){
 
-    if(mode){
-        console.log("receive a char");
-        lcd_rs.set();
-    }else{
-        console.log("receive a cmd");
-        lcd_rs.set(0);
+        if(mode){
+            console.log("receive a char");
+            rpio.write(lcd_rs, rpio.HIGH);
+
+        }else{
+            console.log("receive a cmd");
+            rpio.write(lcd_rs, rpio.LOW);
+        }
+    };
+
+    var fn2 = function(){
+        // High bits
+        rpio.write(lcd_d4, rpio.LOW);
+        rpio.write(lcd_d5, rpio.LOW);
+        rpio.write(lcd_d6, rpio.LOW);
+        rpio.write(lcd_d7, rpio.LOW);
+        if((bits & lcd.filter[0]) == lcd.filter[0]){
+            rpio.write(lcd_d4, rpio.HIGH);
+
+        }
+        if((bits & lcd.filter[1]) == lcd.filter[1]){
+            rpio.write(lcd_d5, rpio.HIGH);
+        }
+        if((bits & lcd.filter[2]) == lcd.filter[2]){
+            rpio.write(lcd_d6, rpio.HIGH);
+        }
+        if((bits & lcd.filter[3]) == lcd.filter[3]){
+            rpio.write(lcd_d7, rpio.HIGH);
+        }
+    };
+
+    var fn5 = function(){
+        // High bits
+        rpio.write(lcd_d4, rpio.LOW);
+        rpio.write(lcd_d5, rpio.LOW);
+        rpio.write(lcd_d6, rpio.LOW);
+        rpio.write(lcd_d7, rpio.LOW);
+        if((bits & lcd.filter[4]) == lcd.filter[4]){
+            rpio.write(lcd_d4, rpio.HIGH);
+
+        }
+        if((bits & lcd.filter[5]) == lcd.filter[5]){
+            rpio.write(lcd_d5, rpio.HIGH);
+        }
+        if((bits & lcd.filter[6]) == lcd.filter[6]){
+            rpio.write(lcd_d6, rpio.HIGH);
+        }
+        if((bits & lcd.filter[7]) == lcd.filter[7]){
+            rpio.write(lcd_d7, rpio.HIGH);
+        }
+    };
+
+
+    var fn36 = function(){
+        rpio.write(lcd_e, rpio.HIGH);
     }
-};
 
-var fn2 = function(){
-    console.log("fn25");
-    // High bits
-    lcd_d4.set(0,
-               function(){
-                   console.log("reset d4");
-                   lcd_d5.set(0,function(){
-                       console.log("reset d5");
-                       lcd_d6.set(0, function(){
-                           console.log("reset d6");
-                           lcd_d7.set(0, function(){
-                               console.log("reset d7");
+    var fn47 = function(){
 
-                               if((bits & lcd.filter[0]) == lcd.filter[0]){
-                                   lcd_d4.set();
-                                   console.log("set d4");
-                               }
-                               if((bits & lcd.filter[1]) == lcd.filter[1]){
-                                   lcd_d5.set();
-                                   console.log("set d5");
-
-                               }
-                               if((bits & lcd.filter[2]) == lcd.filter[2]){
-                                   lcd_d6.set();
-                                   console.log("set d6");
-                               }
-                               if((bits & lcd.filter[3]) == lcd.filter[3]){
-                                   lcd_d7.set();
-                                   console.log("set d7");
-                               }
-                           });
-                       });
-                   });
-               });
-};
-
-var fn5 = function(){
-    console.log("fn25");
-    // High bits
-    lcd_d4.set(0,
-               function(){
-                   console.log("reset d4");
-                   lcd_d5.set(0,function(){
-                       console.log("reset d5");
-                       lcd_d6.set(0, function(){
-                           console.log("reset d6");
-                           lcd_d7.set(0, function(){
-                               console.log("reset d7");
-
-                               if((bits & lcd.filter[4]) == lcd.filter[4]){
-                                   lcd_d4.set();
-                                   console.log("set d4");
-                               }
-                               if((bits & lcd.filter[5]) == lcd.filter[5]){
-                                   lcd_d5.set();
-                                   console.log("set d5");
-
-                               }
-                               if((bits & lcd.filter[6]) == lcd.filter[6]){
-                                   lcd_d6.set();
-                                   console.log("set d6");
-                               }
-                               if((bits & lcd.filter[7]) == lcd.filter[7]){
-                                   lcd_d7.set();
-                                   console.log("set d7");
-                               }
-                           });
-                       });
-                   });
-               });
-};
-
-
-var fn36 = function(){
-    console.log("fn36");
-    lcd_e.set();
-}
-
-var fn47 = function(){
-    console.log("fn47");
-    lcd_e.set(0);
-}
+        rpio.write(lcd_e, rpio.LOW);
+    }
 
 
     setTimeout(function(){
