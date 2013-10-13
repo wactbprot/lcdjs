@@ -222,7 +222,15 @@ var lcd_byte = function(bits, mode, cbfn){
 lcd_setup();
 
 
-setTimeout(lcd_init, 1000)
+var lcd_sting = function(text){
+
+    for( var i in text){
+
+        lcd_byte(text[i].charCodeAt(0), lcd.chr);
+    }
+}
+
+
 setTimeout(function(){
-    lcd_byte("l".charCodeAt(0), lcd.chr);
-},2000);
+    lcd_init(lcd_sting("---WACT---"));
+}, 1000)
