@@ -27,7 +27,10 @@ var rpio = require('rpio'),
         d4 : 22,
         d5 : 18,
         d6 : 16,
-        d7 : 12
+        d7 : 12,
+        bitFilter :[16, 32, 64, 128,
+                 1, 2, 4, 8 ]
+
     };
 /**
  * lcd.line[0] = 0x80; // LCD RAM address for the 1st line
@@ -41,24 +44,6 @@ lcd.line =[
     192,
     148,
     212
-];
-
-/**
- *  lcd.filter[0] = 0x10;
- *  lcd.filter[1] = 0x20;
- *  lcd.filter[2] = 0x30;
- *  lcd.filter[3] = 0x40;
- *
- */
-lcd.filter = [
-    16,
-    32,
-    64,
-    128,
-    1,
-    2,
-    4,
-    8
 ];
 /**
  *  lcd.init[0] = 0x33;
@@ -125,11 +110,9 @@ var lcd_byte = function(bits, mode, cbfn){
     var fn1 = function(){
 
         if(mode){
-            console.log("receive a char");
             rpio.write(lcd.rs, rpio.HIGH);
 
         }else{
-            console.log("receive a cmd");
             rpio.write(lcd.rs, rpio.LOW);
         }
     };
@@ -141,16 +124,16 @@ var lcd_byte = function(bits, mode, cbfn){
         rpio.write(lcd.d6, rpio.LOW);
         rpio.write(lcd.d7, rpio.LOW);
 
-        if((bits & lcd.filter[0]) == lcd.filter[0]){
+        if((bits & lcd.bitFilter[0]) == lcd.bitFilter[0]){
             rpio.write(lcd.d4, rpio.HIGH);
         }
-        if((bits & lcd.filter[1]) == lcd.filter[1]){
+        if((bits & lcd.bitFilter[1]) == lcd.bitFilter[1]){
             rpio.write(lcd.d5, rpio.HIGH);
         }
-        if((bits & lcd.filter[2]) == lcd.filter[2]){
+        if((bits & lcd.bitFilter[2]) == lcd.bitFilter[2]){
             rpio.write(lcd.d6, rpio.HIGH);
         }
-        if((bits & lcd.filter[3]) == lcd.filter[3]){
+        if((bits & lcd.bitFilter[3]) == lcd.bitFilter[3]){
             rpio.write(lcd.d7, rpio.HIGH);
         }
     };
@@ -162,16 +145,16 @@ var lcd_byte = function(bits, mode, cbfn){
         rpio.write(lcd.d6, rpio.LOW);
         rpio.write(lcd.d7, rpio.LOW);
 
-        if((bits & lcd.filter[4]) == lcd.filter[4]){
+        if((bits & lcd.bitFilter[4]) == lcd.bitFilter[4]){
             rpio.write(lcd.d4, rpio.HIGH);
         }
-        if((bits & lcd.filter[5]) == lcd.filter[5]){
+        if((bits & lcd.bitFilter[5]) == lcd.bitFilter[5]){
             rpio.write(lcd.d5, rpio.HIGH);
         }
-        if((bits & lcd.filter[6]) == lcd.filter[6]){
+        if((bits & lcd.bitFilter[6]) == lcd.bitFilter[6]){
             rpio.write(lcd.d6, rpio.HIGH);
         }
-        if((bits & lcd.filter[7]) == lcd.filter[7]){
+        if((bits & lcd.bitFilter[7]) == lcd.bitFilter[7]){
             rpio.write(lcd.d7, rpio.HIGH);
         }
     };
@@ -189,22 +172,16 @@ var lcd_byte = function(bits, mode, cbfn){
 
     setTimeout(function(){
         fn1();
-
         setTimeout(function(){
             fn2();
-
             setTimeout(function(){
                 fn36();
-
                 setTimeout(function(){
                     fn47();
-
                     setTimeout(function(){
                         fn5();
-
                         setTimeout(function(){
                             fn36();
-
                             setTimeout(function(){
                                 fn47();
                                 setTimeout(function(){
@@ -227,24 +204,30 @@ lcd_setup();
 
 
 
-var lcd_sting = function(text) {
+var lcd_sting = function(msg, l) {
 
 
-    var period = 500,
+    var T = 300,
         i      = 0,
-        ta     = text.split(""),
-        Nta    = ta.length;
+        m     = msg.split(""),
+        mN    = m.length;
 
-    var interval = setInterval(function() {
-                       lcd_byte(ta[i].charCodeAt(0), lcd.chr);
-                       if (++i >= Nta) {
-                           clearInterval(interval);
-                       }
-                   }, period);
+            var f = setInterval(function() {
+                        lcd_byte(m[i].charCodeAt(0), lcd.chr);
+                        if (++i >= mN) {
+                            clearInterval(f);
+                        }
+                    }, T);
+
 }
+
 
 setTimeout(lcd_init, 1000)
 
 setTimeout(function(){
-                     lcd_sting("Hallo Werner")
+                     lcd_sting("I'm the Doctor!",0)
                  }, 5000)
+
+setTimeout(function(){
+                     lcd_sting("And you ask?",1)
+                 }, 10000)
