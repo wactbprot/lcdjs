@@ -4,18 +4,15 @@
  * @autor wactbprot <thsteinbock@web.de>
  */
 
-
 // Define some device constants
-
 var lcd = {
     width : 20   // Maximum characters per line
 };
 
-
 lcd.chr = true;
 lcd.cmd = false;
 // Timing constants
-lcd.delay = 5; // ms
+lcd.delay = 50; // ms
 
 lcd.line =[
     128,
@@ -222,15 +219,23 @@ var lcd_byte = function(bits, mode, cbfn){
 lcd_setup();
 
 
-var lcd_sting = function(text){
 
-    for( var i in text){
 
-        lcd_byte(text[i].charCodeAt(0), lcd.chr);
-    }
+var lcd_sting = function(text) {
+
+    period = 500;
+    var i = 0,
+    ta = text.split(""),
+    Nta = ta.length;
+
+    var interval = setInterval(function() {
+                       lcd_byte(ta[i].charCodeAt(0), lcd.chr);
+        if (++i >= Nta) { clearInterval(interval);}
+    }, period);
 }
 
+setTimeout(lcd_init, 1000)
 
 setTimeout(function(){
-    lcd_init(lcd_sting("---WACT---"));
-}, 1000)
+    lcd_sting("Hallo Werner")
+}, 5000)
