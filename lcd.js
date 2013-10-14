@@ -202,22 +202,29 @@ var lcd_byte = function(bits, mode, cbfn){
 lcd_setup();
 
 
+var lcd_toline = function(l, cbfn){
+
+    lcd_byte(lcd.line[l], lcd.cmd);
+    if(typeof cbfn == 'function'){
+        cbfn();
+    }
+
+}
 
 
-var lcd_sting = function(msg, l) {
+var lcd_sting = function(msg) {
 
 
     var T = 300,
         i      = 0,
         m     = msg.split(""),
         mN    = m.length;
-
-            var f = setInterval(function() {
-                        lcd_byte(m[i].charCodeAt(0), lcd.chr);
-                        if (++i >= mN) {
-                            clearInterval(f);
-                        }
-                    }, T);
+        var f = setInterval(function() {
+                    lcd_byte(m[i].charCodeAt(0), lcd.chr);
+                    if (++i >= mN) {
+                        clearInterval(f);
+                    }
+                }, T);
 
 }
 
@@ -225,9 +232,6 @@ var lcd_sting = function(msg, l) {
 setTimeout(lcd_init, 1000)
 
 setTimeout(function(){
-                     lcd_sting("I'm the Doctor!",0)
-                 }, 5000)
-
-setTimeout(function(){
-                     lcd_sting("And you ask?",1)
-                 }, 10000)
+    lcd_toline(1,
+               function(){lcd_sting("I'm the Doctor!")})
+}, 5000)
