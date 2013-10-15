@@ -1,5 +1,5 @@
 /**
-  * A js lcd try
+  * A nodejs lcd try
   *
   * @autor wactbprot <thsteinbock@web.de>
  */
@@ -29,38 +29,22 @@ var rpio = require('rpio'),
         d6 : 16,
         d7 : 12,
         bitFilter :[16, 32, 64, 128,
-                 1, 2, 4, 8 ]
-
+                 1, 2, 4, 8 ],
+        line : [
+            128, // 0x80; LCD RAM address for the 1st line
+            192, // 0xC0; LCD RAM address for the 2nd line
+            148, // 0x94; LCD RAM address for the 3rd line
+            212  // 0xD4; LCD RAM address for the 4th line
+        ],
+        init : [
+            51,    // lcd.init[0] = 0x33;
+            50,    // lcd.init[1] = 0x32;
+            40,    // lcd.init[2] = 0x28;
+            12,    // lcd.init[3] = 0x0C;
+            6,     // lcd.init[4] = 0x06;
+            1      // lcd.init[5] = 0x01;
+        ]
     };
-/**
- * lcd.line[0] = 0x80; // LCD RAM address for the 1st line
- * lcd.line[1] = 0xC0; // LCD RAM address for the 2nd line
- * lcd.line[2] = 0x94; // LCD RAM address for the 3rd line
- * lcd.line[3] = 0xD4; // LCD RAM address for the 4th line
- *
- */
-lcd.line =[
-    128,
-    192,
-    148,
-    212
-];
-/**
- *  lcd.init[0] = 0x33;
- *  lcd.init[1] = 0x32;
- *  lcd.init[2] = 0x28;
- *  lcd.init[3] = 0x0C;
- *  lcd.init[4] = 0x06;
- *  lcd.init[5] = 0x01;
- */
-lcd.init = [
-    51,
-    50,
-    40,
-    12,
-    6,
-    1
-];
 
 var lcd_setup = function(cbfn){
     rpio.setOutput(lcd.e );
