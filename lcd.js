@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
   * A nodejs lcd try
   *
@@ -196,7 +197,7 @@ var lcd_toline = function(l, cbfn){
 }
 
 
-var lcd_sting = function(msg) {
+var lcd_sting = function(msg, cbfn) {
 
 
     var T = 300,
@@ -207,6 +208,9 @@ var lcd_sting = function(msg) {
                     lcd_byte(m[i].charCodeAt(0), lcd.chr);
                     if (++i >= mN) {
                         clearInterval(f);
+                        if(typeof cbfn == 'function'){
+                            cbfn();
+                        }
                     }
                 }, T);
 
@@ -216,6 +220,13 @@ var lcd_sting = function(msg) {
 setTimeout(lcd_init, 1000)
 
 setTimeout(function(){
-    lcd_toline(1,
-               function(){lcd_sting("I'm the Doctor!")})
+    lcd_toline(0,
+               function(){lcd_sting("node server online",
+                                    function(){lcd_toline(1,
+                                                          lcd_sting("I'm the Doctor!")
+                                                         )
+                                              }
+                                   )
+                         }
+              )
 }, 5000)
