@@ -154,33 +154,48 @@ var lcd_byte = function(bits, mode, cbfn){
         rpio.write(lcd.e, rpio.LOW);
     }
 
+    var fnArr = [fn1,fn2,fn36,fn47,fn5,fn36,fn47];
 
-    setTimeout(function(){
-        fn1();
-        setTimeout(function(){
-            fn2();
-            setTimeout(function(){
-                fn36();
-                setTimeout(function(){
-                    fn47();
-                    setTimeout(function(){
-                        fn5();
-                        setTimeout(function(){
-                            fn36();
-                            setTimeout(function(){
-                                fn47();
-                                setTimeout(function(){
-                                    if(typeof cbfn == 'function'){
-                                        cbfn();
-                                    }
-                                });
-                            },lcd.delay);
-                        },lcd.delay);
-                    },lcd.delay);
-                },lcd.delay);
-            },lcd.delay);
-        },lcd.delay);
-    }, lcd.delay);
+    if(typeof cbfn == 'function'){
+        fnArr.push(cbfn);
+    }
+
+    var mN    = fnArr.length,
+    i  = 0;
+    var f = setInterval(function() {
+                if (++i >= mN) {
+                    clearInterval(f);
+                }else{
+                    fnArr[i]();
+                }
+            }, lcd.delay);
+
+   // setTimeout(function(){
+   //     fn1();
+   //     setTimeout(function(){
+   //         fn2();
+   //         setTimeout(function(){
+   //             fn36();
+   //             setTimeout(function(){
+   //                 fn47();
+   //                 setTimeout(function(){
+   //                     fn5();
+   //                     setTimeout(function(){
+   //                         fn36();
+   //                         setTimeout(function(){
+   //                             fn47();
+   //                             setTimeout(function(){
+   //                                 if(typeof cbfn == 'function'){
+   //                                     cbfn();
+   //                                 }
+   //                             });
+   //                         },lcd.delay);
+   //                     },lcd.delay);
+   //                 },lcd.delay);
+   //             },lcd.delay);
+   //         },lcd.delay);
+   //     },lcd.delay);
+   // }, lcd.delay);
 
 };//lcd_byte
 
