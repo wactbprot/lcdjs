@@ -193,13 +193,15 @@ var lcd_toline = function(l, cbfn){
 }
 
 
-var lcd_sting = function(msg, cbfn) {
+var lcd_string = function(msg, cbfn) {
+
+
     var T = 100,
         i      = 0,
         m     = msg.split(""),
         mN    = m.length;
         var f = setInterval(function() {
-                    if (i == mN) {
+                    if (i == mN || i == lcd.width ) {
                         clearInterval(f);
                         if(typeof cbfn == 'function'){
                             cbfn();
@@ -215,9 +217,9 @@ var lcd_sting = function(msg, cbfn) {
 
 setTimeout(function(){
     lcd_toline(0,
-               function(){lcd_sting("node server online",
+               function(){lcd_string("node.js server up and running",
                                     function(){lcd_toline(1,
-                                                          lcd_sting("I'm the Doctor!")
+                                                          lcd_string("I'm the Doctor!")
                                                          )
                                               }
                                    )
