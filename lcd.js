@@ -16,7 +16,7 @@ var rpio = require('rpio'),
         /**
          * delay in ms
          */
-        delay : 50,
+        delay : 20,
         /**
          * The rpio package uses the
          * pin numbers [1:26] (e.g.
@@ -160,42 +160,18 @@ var lcd_byte = function(bits, mode, cbfn){
         fnArr.push(cbfn);
     }
 
-    var mN    = fnArr.length,
+    var mN = fnArr.length,
     i  = 0;
+
     var f = setInterval(function() {
-                if (++i >= mN) {
+
+                if (i == mN) {
                     clearInterval(f);
                 }else{
                     fnArr[i]();
                 }
+                i=i+1;
             }, lcd.delay);
-
-   // setTimeout(function(){
-   //     fn1();
-   //     setTimeout(function(){
-   //         fn2();
-   //         setTimeout(function(){
-   //             fn36();
-   //             setTimeout(function(){
-   //                 fn47();
-   //                 setTimeout(function(){
-   //                     fn5();
-   //                     setTimeout(function(){
-   //                         fn36();
-   //                         setTimeout(function(){
-   //                             fn47();
-   //                             setTimeout(function(){
-   //                                 if(typeof cbfn == 'function'){
-   //                                     cbfn();
-   //                                 }
-   //                             });
-   //                         },lcd.delay);
-   //                     },lcd.delay);
-   //                 },lcd.delay);
-   //             },lcd.delay);
-   //         },lcd.delay);
-   //     },lcd.delay);
-   // }, lcd.delay);
 
 };//lcd_byte
 
