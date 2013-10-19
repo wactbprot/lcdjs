@@ -16,7 +16,7 @@ var rpio = require('rpio'),
         /**
          * delay in ms
          */
-        delay : 20,
+        delay : 2,
         /**
          * The rpio package uses the
          * pin numbers [1:26] (e.g.
@@ -61,6 +61,7 @@ var lcd_setup = function(cbfn){
 };
 
 var lcd_init = function(cbfn){
+
     lcd_byte(
         lcd.init[0],lcd.cmd,
         function(){
@@ -77,7 +78,9 @@ var lcd_init = function(cbfn){
                                         lcd.init[4],lcd.cmd,
                                         function(){
                                             lcd_byte(
-                                                lcd.init[5],lcd.cmd, cbfn)
+                                                lcd.init[5],lcd.cmd,
+                                                cbfn
+                                            )
                                         }
                                     )
                                 }
@@ -175,7 +178,9 @@ var lcd_byte = function(bits, mode, cbfn){
 
 };//lcd_byte
 
-lcd_setup();
+lcd_setup(
+    lcd_init
+);
 
 
 var lcd_toline = function(l, cbfn){
@@ -189,26 +194,24 @@ var lcd_toline = function(l, cbfn){
 
 
 var lcd_sting = function(msg, cbfn) {
-
-
-    var T = 300,
+    var T = 100,
         i      = 0,
         m     = msg.split(""),
         mN    = m.length;
         var f = setInterval(function() {
-                    lcd_byte(m[i].charCodeAt(0), lcd.chr);
-                    if (++i >= mN) {
+                    if (i == mN) {
                         clearInterval(f);
                         if(typeof cbfn == 'function'){
                             cbfn();
                         }
+                    }else{
+                        lcd_byte(m[i].charCodeAt(0), lcd.chr);
                     }
+                    i = i+1;
                 }, T);
 
 }
 
-
-setTimeout(lcd_init, 1000)
 
 setTimeout(function(){
     lcd_toline(0,
