@@ -1,0 +1,49 @@
+[wt@ac lcdjs]# node
+>  lc = require("./lib/lcd.js")
+{ config: 
+   { width: 20,
+     chr: true,
+     cmd: false,
+     delay: 50,
+     e: 24,
+     rs: 26,
+     d4: 22,
+     d5: 18,
+     d6: 16,
+     d7: 12,
+     bitFilter: 
+      [ 16,
+        32,
+        64,
+        128,
+        1,
+        2,
+        4,
+        8 ],
+     line: [ 128, 192, 148, 212 ],
+     init: 
+      [ 51,
+        50,
+        40,
+        12,
+        6,
+        1 ] },
+  setup: [Function],
+  ini: [Function],
+  setbyte: [Function],
+  switchline: [Function],
+  write: [Function] }
+> lc.set
+lc.setbyte  lc.setup    
+
+> lc.setup()
+true
+> lc.ini()
+undefined
+> lc.write("Hello Doctor")
+undefined
+> lc.switchline(3)
+undefined
+> lc.write("Hello Doctor")
+undefined
+> 
