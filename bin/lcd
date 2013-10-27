@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+lcd = reqire("../lib/lcd.js")
+
+lcd.setup(lcd.ini))
