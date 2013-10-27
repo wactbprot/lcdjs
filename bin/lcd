@@ -1,5 +1,40 @@
 #!/usr/bin/env node
 
-lcd = reqire("../lib/lcd.js")
+var lcd = require("../lib/lcd.js")
+var d = new Date();
 
-lcd.setup(lcd.ini))
+var os=require('os');
+var ifaces=os.networkInterfaces();
+
+/* use a function for the exact format desired... */
+function ISODateString(d){
+  function pad(n){return n<10 ? '0'+n : n}
+  return d.getUTCFullYear()+'-'
+      + pad(d.getUTCMonth()+1)+'-'
+      + pad(d.getUTCDate())+'T'
+      + pad(d.getUTCHours())+':'
+      + pad(d.getUTCMinutes())+':'
+      + pad(d.getUTCSeconds())+'
+}
+
+
+fdfff
+lcd.setup(lcd.ini(
+    function(){
+        lcd.write("ok online d(^_^)b",
+                  function(){
+                      lcd.switchline(2,
+                                     function(){
+                                         lcd.write(ISODateString(d),
+                                                   function(){
+                                                       lcd.switchline(3,
+                                                                      function(){
+                                                                          lcd.write(
+                                                                            "ip: "+  ifaces.eth0[0].address
+                                                                          )
+                                                                      })
+                                                   })
+                                     })
+                  })
+    })
+         )
