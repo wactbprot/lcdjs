@@ -1,44 +1,47 @@
+#!/usr/bin/env node
+
 var lcd = require("../lib/lcd.js")
 var d = new Date();
 
-var os=require('os');
-var ifaces=os.networkInterfaces();
-
-/* use a function for the exact format desired... */
-function ISODateString(d){
-  function pad(n){return n<10 ? '0'+n : n}
+var os = require('os');
+var ifaces = os.networkInterfaces();
+var pad =  function(n){
+        return n<10 ? '0'+n : n
+};
+var ISODateString = function (d){
   return d.getUTCFullYear()+'-'
       + pad(d.getUTCMonth()+1)+'-'
-      + pad(d.getUTCDate())+
+      + pad(d.getUTCDate())+" "
       + pad(d.getUTCHours())+':'
       + pad(d.getUTCMinutes())
 }
 
 
-lcd.setup(lcd.ini(
-    function(){
-        lcd.write("    d(^___^)b",
-                  function(){
-                      lcd.switchline(1,
-                                     function(){
-                                      	 lcd.write("_____________________",
-      	                                           function(){
-              	      	      	      	      	       lcd.switchline(3,
-                                                       		      function(){
-                                                                          lcd.write(
-                                                      	                      "d: "+  ISODateString(d),
-                                                                              function(){
-                                                                                  lcd.switchline(3,
-                                                                                                 function(){
-                                                                          			     lcd.write(
-                                                                            				 "ip: "+  ifaces.eth0[0].address
-                                                                                                     )
-                                                                                                 })
-                                                                              })
+lcd.setup(
+    lcd.ini(
+        function(){
+            lcd.write("     d(^___^)b",
+                      function(){
+                          lcd.switchline(1,
+                                         function(){
+                                      	     lcd.write("_____________________",
+      	                                               function(){
+              	      	      	      	      	           lcd.switchline(2,
+                                                       		                function(){
+                                                                              lcd.write(
+                                                      	                          "d: "+  ISODateString(d),
+                                                                                  function(){
+                                                                                      lcd.switchline(3,
+                                                                                                     function(){
+                                                                          			                         lcd.write(
+                                                                            				                         "ip: "+  ifaces.eth0[0].address
+                                                                                                         )
+                                                                                                     })
+                                                                                  })
 
-                                                                      })
-                                                   })
-                                     })
-                  })
-    })
-      	 )
+                                                                          })
+                                                       })
+                                         })
+                      })
+        })
+)
