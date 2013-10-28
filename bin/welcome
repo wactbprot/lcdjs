@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 var lcd = require("../lib/lcd.js")
-var d = new Date();
-
 var os = require('os');
 var ifaces = os.networkInterfaces();
 var pad =  function(n){
@@ -17,8 +15,8 @@ var ISODateString = function (d){
 }
 
 
-lcd.setup(
-    lcd.ini(
+var wfn = function(){
+var d = new Date();
         function(){
             lcd.write("     d(^___^)b",
                       function(){
@@ -43,5 +41,7 @@ lcd.setup(
                                                        })
                                          })
                       })
-        })
-)
+        }
+}
+lcd.setup(lcd.ini(wfn));
+setIntervall(wfn, 60000)
