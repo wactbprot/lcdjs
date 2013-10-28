@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+var lcd = require("../lib/lcd.js");
+
+lcd.setup(
+    lcd.ini(
+        function(){
+            lcd.write("bad wolf")
+        }
+    )
+)
