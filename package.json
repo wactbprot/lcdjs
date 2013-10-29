@@ -1,7 +1,7 @@
 {
   "name": "lcdjs",
   "version": "0.0.1",
-  "description": "Write to your LCD device",
+  "description": "Write stuff to your LCD device",
   "main": "./lib/main.js",
   "scripts": {
     "test": "ini"
@@ -10,10 +10,12 @@
     "type": "git",
     "url": "git@gitproxy:wactbprot/lcdjs"
   },
+  "dependencies": {
+  "rpio":">=0.0.6",
+  },
   "keywords": [
     "gpio",
-    "raspberry",
-    "pi",
+    "raspberry pi",
     "lcd",
     "20x4",
     "rpio"
