@@ -2,7 +2,6 @@
 
 var lcd = require("../lib/lcd.js");
 var os = require('os');
-var ifaces = os.networkInterfaces();
 
 var pad =  function(n){
         return n<10 ? '0'+n : n;
@@ -12,8 +11,8 @@ var ISODateString = function (d){
     return d.getUTCFullYear()+'-'
   + pad(d.getUTCMonth()+1)+'-'
   + pad(d.getUTCDate())+" "
-  + pad(d.getUTCHours())+':'
-  + pad(d.getUTCMinutes())
+  + pad(d.getHours())+':'
+  + pad(d.getMinutes())
 }
 
 
@@ -33,9 +32,12 @@ var wfn = function(){
                                                                           function(){
                                                                               lcd.switchline(3,
                                                                                              function(){
-                                                                          			                 lcd.write(
-                                                                            				                 "ip: "+  ifaces.eth0[0].address
-                                                                                                 )
+                                                                                                 var ifaces = os.networkInterfaces();
+                                                                                                 var ipaddr = "waiting...";
+                                                                                                 if(ifaces && ifaces.eth0 && ifaces.eth0[0]){
+                                                                                                     ipaddr  =  ifaces.eth0[0].address;
+                                                                                                 }
+                                                                                                 lcd.write("ip: "+ ipaddr)
                                                                                              })
                                                                           })
 
@@ -46,4 +48,5 @@ var wfn = function(){
     })
 }
 
-setInterval(wfn, 60000)
+lcd.setup(lcd.ini(wfn));
+setInterval(wfn, 60000);
