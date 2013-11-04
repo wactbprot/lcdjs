@@ -1,52 +1,51 @@
 #!/usr/bin/env node
 
-var lcd = require("../lib/lcd.js");
-var os = require('os');
+var l1  = "bad wolf",
+    l2  = "_____________________",
+    lcd = require("../lib/lcd.js"),
+    os  = require("os"),
+    pad =  function(n){
+        return n < 10 ? "0" + n : n;
+    },
+    ISODateString = function(d){
 
-var pad =  function(n){
-        return n<10 ? '0'+n : n;
-};
+        return d.getUTCFullYear()  + '-' +
+          pad(d.getUTCMonth() + 1) +'-' +
+          pad(d.getUTCDate()) + " " +
+          pad(d.getHours())   + ":" +
+          pad(d.getMinutes())
+    },
+    wfn = function(){
+        var d = new Date();
+        lcd.switchline(0,function(){
+            lcd.write(l1,
+                      function(){
+                          lcd.switchline(1,
+                                         function(){
+                                             lcd.write(l2,
+      	                                               function(){
+              	      	      	      	      	           lcd.switchline(2,
+                                                       		                function(){
+                                                                              lcd.write(
+                                                      	                          "d: "+  ISODateString(d),
+                                                                                  function(){
+                                                                                      lcd.switchline(3,
+                                                                                                     function(){
+                                                                                                         var ifaces = os.networkInterfaces();
+                                                                                                         var ipaddr = "waiting...";
+                                                                                                         if(ifaces && ifaces.eth0 && ifaces.eth0[0]){
+                                                                                                             ipaddr  =  ifaces.eth0[0].address;
+                                                                                                         }
+                                                                                                         lcd.write("ip: "+ ipaddr)
+                                                                                                     })
+                                                                                  })
 
-var ISODateString = function (d){
-    return d.getUTCFullYear()+'-'
-  + pad(d.getUTCMonth()+1)+'-'
-  + pad(d.getUTCDate())+" "
-  + pad(d.getHours())+':'
-  + pad(d.getMinutes())
-}
-
-
-var wfn = function(){
-    var d = new Date();
-    lcd.switchline(0,function(){
-    lcd.write("   bad wolf",
-              function(){
-                  lcd.switchline(1,
-                                 function(){
-                                     lcd.write("_____________________",
-      	                                       function(){
-              	      	      	      	      	   lcd.switchline(2,
-                                                       		        function(){
-                                                                      lcd.write(
-                                                      	                  "d: "+  ISODateString(d),
-                                                                          function(){
-                                                                              lcd.switchline(3,
-                                                                                             function(){
-                                                                                                 var ifaces = os.networkInterfaces();
-                                                                                                 var ipaddr = "waiting...";
-                                                                                                 if(ifaces && ifaces.eth0 && ifaces.eth0[0]){
-                                                                                                     ipaddr  =  ifaces.eth0[0].address;
-                                                                                                 }
-                                                                                                 lcd.write("ip: "+ ipaddr)
-                                                                                             })
                                                                           })
-
-                                                                  })
-                                               })
-                                 })
-              })
-    })
-}
+                                                       })
+                                         })
+                      })
+        })
+    }
 
 lcd.setup(lcd.ini(wfn));
 setInterval(wfn, 60000);
