@@ -46,21 +46,21 @@ var port   = 80,
     console.log(lineNumber)
     console.log(txt)
 
-  lcd.switchline(lineNumber,
-                               function(){
-                                   setTimeout(function(){ 
-			               lcd.write(txt);
-                                   })                       
-                               })
-
-
-		handler.respond("<h1>wrote" +txt+"</h1>");
-            }
+	lcd.switchline(lineNumber,
+        function(){
+            setTimeout(function(){ 
+			    lcd.write(txt);
+                    },100)                       
+                })
+					
+				
+					handler.respond("<h1>wrote" +txt+"</h1>");
+}
 	}
-    }    
-
-
-lcd.setup(lcd.ini);
+		}    
+	
+	
+		lcd.setup(lcd.ini);
 
 router.addRoute(
     {
