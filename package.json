@@ -1,6 +1,6 @@
 {
     "name": "lcdjs",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Write stuff to your LCD device",
     "main": "./lib/main.js",
     "repository": {
