@@ -20,17 +20,55 @@ Infrastructure for configuring other lcd-types will be provided if needed.
 Don't hesitate, open a
 [issue on github](https://github.com/wactbprot/lcdjs/issues)
 
-## The 4 functions are
+## provides
 
-* ```lcd.setup```
-* ```lcd.ini```
-* ```lcd.write```
-* ```lcd.switchline```
+* ```lcd.setup(callback)``` sets the rasp pins as they should be
+* ```lcd.ini(callback)```  initializes the lcd 
+* ```lcd.write(string, callback)``` writes a string to the current line
+* ```lcd.switchline(lineNumber, callback)``` switches the current line
 
-## usage
+## usage example
 
-```var lcd = require("lcdjs")```
+this makes your lcd device writable over http
 
-```lcd.setup(lcd.ini)```
+```
+#!/usr/bin/env node
 
-```lcd.write("bad wolf")```
+var port   = 80,
+    lcd    = require("lcdjs"),
+    drest  = require("drest"),
+    router = drest.createRouter(80,"0.0.0.0"),
+    api    = {
+        line: {
+            write : function (handler) {
+                var lineNumber = parseInt(handler.path.pop(),10) -1,
+                    txt = unescape(handler.query.txt);
+    console.log(lineNumber)
+    console.log(txt)
+
+  lcd.switchline(lineNumber,
+                               function(){
+                                   setTimeout(function(){ 
+			               lcd.write(txt);
+                                   })                       
+                               })
+
+
+		handler.respond("<h1>wrote" +txt+"</h1>");
+            }
+	}
+    }    
+
+
+lcd.setup(lcd.ini);
+
+router.addRoute(
+    {
+        method:"get",
+        path:"line/{number}",
+        action:api.line.write
+    }
+);
+
+```
+
