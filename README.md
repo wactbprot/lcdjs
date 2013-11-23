@@ -6,6 +6,9 @@
           |___/     
 ```
 
+***A much more worked out lib is [lcd](https://npmjs.org/package/lcd) by @fivdi***
+
+
 Provides 4 functions for a nodejs-raspi-lcd
 arrangment. By now it works with a 20x4 Hitachi compatible LCD.
  
